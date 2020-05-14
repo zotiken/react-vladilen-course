@@ -1,5 +1,5 @@
 .container_quiz{
-  background: linear-gradient(to right, rgb(112, 188, 238) 0%, rgb(179, 200, 214) 50%, rgb(76, 119, 148) 100%);
+  background: linear-gradient(to right, rgb(160, 112, 238) 0%, rgb(192, 179, 214) 60%, rgb(62, 29, 114) 100%);
   border: 1px solid black;
   padding: 20px;
   display: flex;
@@ -7,4 +7,5 @@
   justify-content: center;
   flex-direction: column;
   width: 80%;
+  height: 80vh;
 }

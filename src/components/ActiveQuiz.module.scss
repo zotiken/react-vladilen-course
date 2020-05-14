@@ -1,10 +1,11 @@
-.container_quiz{
-  background: linear-gradient(to right, rgb(112, 188, 238) 0%, rgb(179, 200, 214) 50%, rgb(76, 119, 148) 100%);
-  border: 1px solid black;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 80%;
+.question{
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 40px;
+  width: 60%;
+  color: #fff;
+  &_wrapper{
+display: flex;
+justify-content: space-between;
+}
 }
