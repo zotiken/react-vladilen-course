@@ -1,12 +1,16 @@
 import React from "react";
-import "./App.css";
+import Layout from "./hoc/Layout";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>React</h1>
       </header>
+      <Layout>
+        <div>
+          <h1>Layout React</h1>
+        </div>
+      </Layout>
     </div>
   );
 }
