@@ -1,9 +1,11 @@
 .question{
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   border-radius: 10px;
   padding: 40px;
   width: 60%;
+  background-color: rgba($color: #fff, $alpha: .1);
   color: #fff;
+        box-shadow: 0 3px 10px rgb(98, 51, 112);
   &_wrapper{
 display: flex;
 justify-content: space-between;

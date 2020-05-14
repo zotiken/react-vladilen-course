@@ -1,23 +1,22 @@
-import React from 'react';
-import classes from './ActiveQuiz.module.scss'
-export default function ActiveQuiz(props) {
+import React from "react";
+import classes from "./ActiveQuiz.module.scss";
+import AnswersList from "../components/AnswersList";
+export default function ActiveQuiz({ question, answers, current = 1,
+    total}) {
   return (
     <div className={classes.question}>
       <div className={classes.question_wrapper}>
         <p>
           <span>2.</span>
-          Как оно?
+          {question.text}
         </p>
         <p>
-          <span>4</span>
+          <span>{current}</span>
           из
-          <span>4</span>
+          <span>{total}</span>
         </p>
       </div>
-      <ul className={classes.answers_list}>
-        <li>Lorem, ipsum dolor.</li>
-        <li>Lorem ipsum dolor sit.</li>
-      </ul>
+      <AnswersList className={classes.answers_list} answers={answers} />
     </div>
   );
-};
+}
