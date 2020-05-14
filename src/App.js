@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "./hoc/Layout";
+import Quiz from "./containers/Quiz";
 
 function App() {
   return (
@@ -7,9 +8,7 @@ function App() {
       <header className="App-header">
       </header>
       <Layout>
-        <div>
-          <h1>Layout React</h1>
-        </div>
+        <Quiz/>
       </Layout>
     </div>
   );
