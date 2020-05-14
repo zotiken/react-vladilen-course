@@ -9,5 +9,9 @@
   &_wrapper{
 display: flex;
 justify-content: space-between;
+align-items: center;
+}
+&_header{
+  font-size: 20px;
 }
 }

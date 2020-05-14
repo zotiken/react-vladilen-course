@@ -1,5 +1,9 @@
 import React from "react";
 import classes from "./AnswersItem.module.scss";
-export default function ActiveQuiz({ toChildren }) {
-  return <li className={classes.answers_item}>{toChildren}</li>;
+export default function ActiveQuiz({ toChildren, onClickHandler }) {
+  return (
+    <li className={classes.answers_item} onClick={()=> onClickHandler(toChildren.id)}>
+      {toChildren.text}
+    </li>
+  );
 }

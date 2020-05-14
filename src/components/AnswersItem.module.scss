@@ -8,6 +8,7 @@
     transition: 0.3s ease-in-out;
 
     &:hover {
+      cursor: pointer;
       background-color: rgba($color: #fff, $alpha: 0.2);
       transition: 0.3s ease-in-out;
       box-shadow: 1px 1px 10px rgb(98, 51, 112);
