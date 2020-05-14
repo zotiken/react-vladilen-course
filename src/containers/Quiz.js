@@ -23,37 +23,53 @@ export default class Quiz extends Component {
           { text: "крысса", id: 3 },
           { text: "кот", id: 4 },
         ],
-        rightAnswers: 1,
+        rightAnswers: 4,
         id: 1,
       },
     ],
     current: 1,
+    change:false,
     total: 1,
-    passed:false
+    highlight: null,
+    passed: false,
   };
   onClickHandler = (prop) => {
-    console.log(prop);
-    if (prop === this.state.quiz[this.state.current-1].rightAnswers) {
-      if (this.state.quiz.length !== this.state.current) {
-        this.setState({current: this.state.current + 1})
+    if (!this.state.change) {
+      if (prop === this.state.quiz[this.state.current - 1].rightAnswers ) {
+        this.setState({change: true })
+        this.setState({highlight: {id:prop, class:"success"} })
+        if (this.state.quiz.length !== this.state.current) {
+          setTimeout(() => {
+            this.setState({ highlight: null })
+            this.setState({ current: this.state.current + 1 })
+            this.setState({change: false })
+          }, 1000);
+        } else {
+          this.setState({ passed: true });
+        }
       } else {
-        this.setState({passed: true})
-      }
+        this.setState({highlight: {id:prop, class:"error"} })
+      }  
     }
   };
   render() {
     return (
       <div className={classes.container_quiz}>
         {!this.state.passed && <h1>Ответьте на вопрос</h1>}
-        {this.state.passed ? <div className={classes.modal_win}><p>win</p></div>:
-        <ActiveQuiz
-          question={this.state.quiz[this.state.current - 1].question}
-          answers={this.state.quiz[this.state.current - 1].answers}
-          current={this.state.current}
-          total={this.state.quiz.length}
-          onClickHandler={this.onClickHandler}
-        />
-        }
+        {this.state.passed ? (
+          <div className={classes.modal_win}>
+            <p>win</p>
+          </div>
+        ) : (
+          <ActiveQuiz
+            question={this.state.quiz[this.state.current - 1].question}
+            answers={this.state.quiz[this.state.current - 1].answers}
+            current={this.state.current}
+            highlight={ this.state.highlight}
+            total={this.state.quiz.length}
+            onClickHandler={this.onClickHandler}
+          />
+        )}
       </div>
     );
   }
