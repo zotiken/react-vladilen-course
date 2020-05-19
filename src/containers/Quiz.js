@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import classes from "./Quiz.module.scss";
 import ActiveQuiz from "../components/ActiveQuiz";
 import FinishPage from '../components/FinishPage'
+import {withRouter } from 'react-router-dom'
 
-export default class Quiz extends Component {
+ class Quiz extends Component {
   state = {
     quiz: [
       {
@@ -42,12 +43,15 @@ export default class Quiz extends Component {
 
     ],
     results:[],
-    current: 1,
+    current: Number(this.props.match.params.quiz) || 1,
     change:false,
     total: 1,
     highlight: null,
     passed: false,
   };
+
+
+
   onClickHandler = (prop) => {
     console.log(prop.quiz);
     if (!this.state.change) {
@@ -85,27 +89,18 @@ export default class Quiz extends Component {
   };
   isRetryHandler=()=>{
     this.setState({ highlight: null,passed: false, current: 1 ,results:[], change:false})
-    // results:[],
-    // current: 1,
-    // change:false,
-    // total: 1,
-    // highlight: null,
-    // passed: false,
-
   }
   render() {
+    let quiz = this.state.quiz[this.state.current - 1]
     return (
       <div className={classes.container_quiz}>
         {!this.state.passed && <h1>Ответьте на вопрос</h1>}
         {this.state.passed ? (
-          // <div >
-          //   <p>win</p>
-          // </div>
           <FinishPage total={this.state.quiz.length} results={this.state.results} isRetryHandler={this.isRetryHandler}/>
         ) : (
           <ActiveQuiz
-            question={this.state.quiz[this.state.current - 1].question}
-            answers={this.state.quiz[this.state.current - 1].answers}
+            question={quiz.question}
+            answers={quiz.answers}
             current={this.state.current}
             highlight={ this.state.highlight}
             total={this.state.quiz.length}
@@ -116,3 +111,5 @@ export default class Quiz extends Component {
     );
   }
 }
+
+export default withRouter(Quiz);

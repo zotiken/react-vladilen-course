@@ -1,10 +1,10 @@
 
 import React, {useState} from 'react';
 import classes from "./MenuToggle.module.scss"
-export const MenuToggle = ({toggleНandler}) => {
-  let[status,setStatus] = useState(true)
+export const MenuToggle = ({status,toggleНandler}) => {
+  // let[status,setStatus] = useState(true)
    const onClickHandler = ()=>{
-    setStatus(status = !status);
+    // setStatus(status = !status);
     toggleНandler();
     console.log('222');
   }
