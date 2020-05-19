@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "../components/AnswersList.module.scss";
 import AnswersItem from "../components/AnswersItem";
-export default function AnswersList({ answers, onClickHandler, highlight }) {
+export default function AnswersList({ answers, onClickHandler, highlight,current }) {
   console.log(answers);
   return (
     <ol className={classes.answers_list}>
@@ -11,6 +11,7 @@ export default function AnswersList({ answers, onClickHandler, highlight }) {
           onClickHandler={onClickHandler}
           highlight={highlight}
           key={i}
+          current={current}
         />
       ))}
     </ol>

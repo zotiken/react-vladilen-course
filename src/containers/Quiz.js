@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import classes from "./Quiz.module.scss";
 import ActiveQuiz from "../components/ActiveQuiz";
+import FinishPage from '../components/FinishPage'
+
 export default class Quiz extends Component {
   state = {
     quiz: [
@@ -24,9 +26,22 @@ export default class Quiz extends Component {
           { text: "кот", id: 4 },
         ],
         rightAnswers: 4,
-        id: 1,
+        id: 2,
       },
+      {
+        question: { text: "Кто сказал авв?" },
+        answers: [
+          { text: "вьетнамец", id: 1 },
+          { text: "слон", id: 2 },
+          { text: "крысса", id: 3 },
+          { text: "кот", id: 4 },
+        ],
+        rightAnswers: 3,
+        id: 3,
+      },
+
     ],
+    results:[],
     current: 1,
     change:false,
     total: 1,
@@ -34,32 +49,59 @@ export default class Quiz extends Component {
     passed: false,
   };
   onClickHandler = (prop) => {
+    console.log(prop.quiz);
     if (!this.state.change) {
-      if (prop === this.state.quiz[this.state.current - 1].rightAnswers ) {
+      if (prop.id === this.state.quiz[this.state.current - 1].rightAnswers ) {
+        this.setState({results: [...this.state.results,{id:prop.quiz-1,class:'success'}] })
         this.setState({change: true })
-        this.setState({highlight: {id:prop, class:"success"} })
-        if (this.state.quiz.length !== this.state.current) {
-          setTimeout(() => {
-            this.setState({ highlight: null })
-            this.setState({ current: this.state.current + 1 })
-            this.setState({change: false })
-          }, 1000);
-        } else {
-          this.setState({ passed: true });
-        }
+        this.setState({highlight: {id:prop.id, class:"success"} })
+        console.log(this.state.highlight)
+        // if (this.state.quiz.length !== this.state.current) {
+        //   setTimeout(() => {
+        //     this.setState({ highlight: null })
+        //     this.setState({ current: this.state.current + 1 })
+        //     this.setState({change: false })
+        //   }, 1000);
+        // } else {
+        //   this.setState({ passed: true });
+        // }
       } else {
-        this.setState({highlight: {id:prop, class:"error"} })
+          this.setState({results: [...this.state.results,{id:prop.quiz-1,class:'failure'}] })
+        this.setState({highlight: {id:prop.id, class:"error"} })
       }  
+      if (this.state.quiz.length !== this.state.current) {
+        setTimeout(() => {
+          this.setState({ highlight: null })
+          this.setState({ current: this.state.current + 1 })
+          this.setState({change: false })
+        }, 1000);
+      } else {
+        setTimeout(() => {
+          this.setState({ passed: true });
+        }, 1000);
+      }
+
     }
   };
+  isRetryHandler=()=>{
+    this.setState({ highlight: null,passed: false, current: 1 ,results:[], change:false})
+    // results:[],
+    // current: 1,
+    // change:false,
+    // total: 1,
+    // highlight: null,
+    // passed: false,
+
+  }
   render() {
     return (
       <div className={classes.container_quiz}>
         {!this.state.passed && <h1>Ответьте на вопрос</h1>}
         {this.state.passed ? (
-          <div className={classes.modal_win}>
-            <p>win</p>
-          </div>
+          // <div >
+          //   <p>win</p>
+          // </div>
+          <FinishPage total={this.state.quiz.length} results={this.state.results} isRetryHandler={this.isRetryHandler}/>
         ) : (
           <ActiveQuiz
             question={this.state.quiz[this.state.current - 1].question}

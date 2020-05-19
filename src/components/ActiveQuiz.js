@@ -3,6 +3,7 @@ import classes from "./ActiveQuiz.module.scss";
 import AnswersList from "../components/AnswersList";
 export default function ActiveQuiz({ question, answers, current = 1,
     total, onClickHandler, highlight}) {
+      console.log(current);
   return (
     <div className={classes.question}>
       <div className={classes.question_wrapper}>
@@ -16,7 +17,7 @@ export default function ActiveQuiz({ question, answers, current = 1,
           <span>{total}</span>
         </p>
       </div>
-      <AnswersList className={classes.answers_list} answers={answers} onClickHandler={onClickHandler} highlight={highlight} />
+      <AnswersList className={classes.answers_list} answers={answers} onClickHandler={onClickHandler} highlight={highlight} current={current} />
     </div>
   );
 }
