@@ -1,0 +1,17 @@
+.menuList{
+  width: 200px;
+  box-sizing: border-box;
+  padding: 10px;
+  position: absolute;
+  height: 100vh;
+  background-color: #fff;
+  transform: translateX(-200px);
+  transition: .3s transform ease-in-out ;
+  ul{
+    padding: 0;
+    list-style: none;
+  }
+}
+.active{
+  transform: translateX(0px);
+}

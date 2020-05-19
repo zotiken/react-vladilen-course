@@ -1,19 +1,24 @@
 
 import React, {useState} from 'react';
-import classes from "./MenuToggle .module.scss"
-export const MenuToggle = (props) => {
+import classes from "./MenuToggle.module.scss"
+export const MenuToggle = ({toggleНandler}) => {
   let[status,setStatus] = useState(true)
-  let cls = ["fas"];
+   const onClickHandler = ()=>{
+    setStatus(status = !status);
+    toggleНandler();
+    console.log('222');
+  }
+  let cls = [classes.toggleButton,"fas"];
 if (status) {
   cls=[...cls,"fa-bars"]
 } else {
-  cls=[...cls,"fa-times"]
+  cls=[...cls,"fa-times",classes.active]
 
 }
   return (
     <i 
     className={cls.join(" ")}
-    onClick={()=>setStatus(status = !status)}
+    onClick={()=> onClickHandler()}
     ></i>
     // <i class="fas fa-times"></i>
   );
