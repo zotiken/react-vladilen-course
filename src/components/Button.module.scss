@@ -1,10 +1,12 @@
 .button{
-    background: none;
+  margin: 0 10px;
+    background: rgb(96, 14, 104);
     border: 1px solid #fff;
     border-radius: 5px;
     color: #fff;
     text-transform: uppercase;
     padding: 10px 20px;
+    transition: .3s ease-in-out;
   &:focus{
     box-shadow: inset 1px 1px 5px rgb(43, 4, 48);
   }
@@ -14,6 +16,54 @@
 
   }
   &:hover{
+    transition: .3s ease-in-out;
     box-shadow:  1px 1px 5px rgb(43, 4, 48);
   }
 }
+.primary{
+  background: rgb(131, 185, 221);
+  border: 1px solid rgb(110, 105, 139);
+  border-radius: 5px;
+  color: #fff;
+  letter-spacing:2px;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  padding: 10px 20px;
+  &:focus{
+    box-shadow: inset 1px 1px 5px rgb(88, 75, 145);
+  }
+  &:hover{
+    box-shadow:  1px 1px 5px rgb(4, 27, 48);
+  }
+
+}
+.success{
+  background: rgb(235, 99, 99);
+  border: 1px solid rgb(110, 105, 139);
+  border-radius: 5px;
+  color: #fff;
+  letter-spacing:2px;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  padding: 10px 20px;
+  &:focus{
+    box-shadow: inset 1px 1px 5px rgb(87, 32, 32);
+  }
+  &:hover{
+    box-shadow:  1px 1px 5px rgb(48, 4, 4);
+  }
+
+}
+.skilet{
+  background:none;
+  border: 1px solid rgb(255, 255, 255);
+  color: rgb(63, 62, 62);
+  &:focus{
+    box-shadow: inset 1px 1px 5px rgb(158, 158, 158);
+  }
+  &:hover{
+    box-shadow:  1px 1px 5px rgb(99, 99, 99);
+  }
+
+}
+
