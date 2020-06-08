@@ -4,7 +4,9 @@ import Button from "../../components/Button";
 import InputField from "../../components/InputField/InputField";
 import classes from "./Auth.module.scss";
 
-import {validation} from '../../util/validation';
+import { validation } from "../../util/validation";
+
+import { api } from "../../api/api";
 
 class Auth extends Component {
   constructor(props) {
@@ -37,28 +39,46 @@ class Auth extends Component {
         login: {
           name: "Войти",
           type: "primary",
+          button:"submit"
         },
         reisterg: {
           name: "Регистрация",
           type: "success",
+          button:"button"
         },
       },
     };
   }
 
-  onSubmitHandler = (e) => {
-    e.preventDefault();
+  onClickHandler=(e) => {
+    console.log(e);
     const formControls = Object.keys(this.state.formControls);
     let falseItem = formControls.filter(
-      item => item.valid === false && item.toutched === false
+      (item) => this.state.formControls[item].valid === false && this.state.formControls[item].toutched === false
     );
     if (falseItem.length === 0) {
-      alert("Success");
+      console.log('!!!!');
+    if (e === "button") {
+      api.auth.signUp(this.state.formControls.email.value, this.state.formControls.password.value);
+    } else {
+      api.auth.logIn(this.state.formControls.email.value, this.state.formControls.password.value);
     }
+  }
+  }
 
+  onSubmitHandler = (e) => {
+    e.preventDefault();
+    // const formControls = Object.keys(this.state.formControls);
+    // let falseItem = formControls.filter(
+    //   (item) => this.state.formControls[item].valid === false && this.state.formControls[item].toutched === false
+    // );
+    // if (falseItem.length === 0) {
+    //   console.log('!!!!');
+    // }
   };
 
   onChangeHandler = (event, name) => {
+     console.log(event,name)
     this.setState({
       formControls: {
         ...this.state.formControls,
@@ -66,7 +86,7 @@ class Auth extends Component {
           ...this.state.formControls[name],
           value: event.target.value,
           toutched: true,
-          valid:validation(event.target.value, [
+          valid: validation(event.target.value, [
             ...this.state.formControls[name].validation,
           ]),
         },
@@ -101,7 +121,7 @@ class Auth extends Component {
     const formButtons = Object.keys(this.state.formButtons);
     return formButtons.map((item, index) => {
       const control = this.state.formButtons[item];
-      return <Button text={control.name} type={control.type} />;
+      return <Button text={control.name} type={control.type} button={control.button} onClickHandler={this.onClickHandler}/>;
     });
   }
 
@@ -116,7 +136,8 @@ class Auth extends Component {
           <h1>Авторизация</h1>
           {this.renderInput()}
 
-          <div className={classes.auth_blockButton}>{this.renderButton()}</div>
+          <div className={classes.auth_blockButton}>{this.renderButton()}
+          </div>
         </form>
       </div>
     );
