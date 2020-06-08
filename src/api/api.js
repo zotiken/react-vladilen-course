@@ -32,9 +32,29 @@ export const api = {
     },
   },
   quizes: {
-    get: {},
+    get: async () => {
+      try {
+        const response = await axios.get(
+          `https://react-quiz-vladilen.firebaseio.com/quizes.json`
+        );
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.error(error);
+      }
+
+    },
     quiz: {
-      get: {},
+      get: async (id) => {
+        try {
+          const response = await axios.get(
+            `https://react-quiz-vladilen.firebaseio.com/quizes/${id}/quiz.json`
+          );
+          console.log(response.data);
+          return response.data;
+        } catch (error) {
+          console.error(error);
+        }},
       post: async (quiz) => {
         try {
           const response = await axios.post(

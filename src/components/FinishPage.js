@@ -22,7 +22,7 @@ props.history.push({pathname:"/"})
               {result.class === "success" ? (
                 <i className="far fa-check-circle"></i>
               ) : (
-                <i class="far fa-times-circle"></i>
+                <i className="far fa-times-circle"></i>
               )}
             </li>
           ))}
@@ -33,10 +33,11 @@ props.history.push({pathname:"/"})
           <p>
             Правильних ответов: <span>{count}</span>из<span>{total}</span>
           </p>
-          <Button onClickHandler={isRetryHandler} text={"Повторить"} />
+          <Button onClickHandler={isRetryHandler} text={"Повторить"} button='button'/>
           <Button
             onClickHandler={() => goToHomeHandler()}
-            text={"на Домашнюю страницу"}
+            text={"на Домашнюю страницу"}  
+            button='button'
           />
 
           {/* <button onClick={()=>isRetryHandler()}>Повторить</button> */}

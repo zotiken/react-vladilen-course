@@ -36,6 +36,7 @@ class QuizCreate extends Component {
             value: "",
             errorMessage: "Некорректный Вариант",
             validation: ["required"],
+            id:'1'
           },
           {
             label: "Вариант",
@@ -46,6 +47,7 @@ class QuizCreate extends Component {
             value: "",
             errorMessage: "Некорректный Вариант",
             validation: ["required"],
+            id:'2'
           },
           {
             label: "Вариант",
@@ -56,6 +58,7 @@ class QuizCreate extends Component {
             value: "",
             errorMessage: "Некорректный Вариант",
             validation: ["required"],
+            id:'3'
           },
           {
             label: "Вариант",
@@ -66,6 +69,7 @@ class QuizCreate extends Component {
             value: "",
             errorMessage: "Некорректный Вариант",
             validation: ["required"],
+            id:'4'
           },
         ],
         rightAnswers: null,

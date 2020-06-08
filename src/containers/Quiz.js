@@ -3,54 +3,71 @@ import classes from "./Quiz.module.scss";
 import ActiveQuiz from "../components/ActiveQuiz";
 import FinishPage from '../components/FinishPage'
 import {withRouter } from 'react-router-dom'
+import { api } from '../api/api'
 
  class Quiz extends Component {
+  //  constructor(props){
+  //    super(props)
+    //  this.state={
+      //  quiz:[],
+      //  loading:false
+    //  }
+  //  }
   state = {
-    quiz: [
-      {
-        question: { text: "Какое слово всегда звучит неверно?" },
-        answers: [
-          { text: 'Слово "неверно"', id: 1 },
-          { text: "верно", id: 2 },
-          { text: "какое", id: 3 },
-          { text: "выпить", id: 4 },
-        ],
-        rightAnswers: 1,
-        id: 1,
-      },
-      {
-        question: { text: "Кто сказал мяу?" },
-        answers: [
-          { text: "вьетнамец", id: 1 },
-          { text: "слон", id: 2 },
-          { text: "крысса", id: 3 },
-          { text: "кот", id: 4 },
-        ],
-        rightAnswers: 4,
-        id: 2,
-      },
-      {
-        question: { text: "Кто сказал авв?" },
-        answers: [
-          { text: "вьетнамец", id: 1 },
-          { text: "слон", id: 2 },
-          { text: "крысса", id: 3 },
-          { text: "кот", id: 4 },
-        ],
-        rightAnswers: 3,
-        id: 3,
-      },
+    quiz: [],
 
-    ],
+    // quiz: [
+    //   {
+    //     question: { text: "Какое слово всегда звучит неверно?" },
+    //     answers: [
+    //       { text: 'Слово "неверно"', id: 1 },
+    //       { text: "верно", id: 2 },
+    //       { text: "какое", id: 3 },
+    //       { text: "выпить", id: 4 },
+    //     ],
+    //     rightAnswers: 1,
+    //     id: 1,
+    //   },
+    //   {
+    //     question: { text: "Кто сказал мяу?" },
+    //     answers: [
+    //       { text: "вьетнамец", id: 1 },
+    //       { text: "слон", id: 2 },
+    //       { text: "крысса", id: 3 },
+    //       { text: "кот", id: 4 },
+    //     ],
+    //     rightAnswers: 4,
+    //     id: 2,
+    //   },
+    //   {
+    //     question: { text: "Кто сказал авв?" },
+    //     answers: [
+    //       { text: "вьетнамец", id: 1 },
+    //       { text: "слон", id: 2 },
+    //       { text: "крысса", id: 3 },
+    //       { text: "кот", id: 4 },
+    //     ],
+    //     rightAnswers: 3,
+    //     id: 3,
+    //   },
+
+    // ],
     results:[],
-    current: Number(this.props.match.params.quiz) || 1,
+    current: 1,
     change:false,
     total: 1,
     highlight: null,
     passed: false,
+    loading: false
   };
 
-
+  async componentDidMount(){
+    if (this.state.quiz.length === 0 ) {
+      const response = await api.quizes.quiz.get(this.props.match.params.quiz)
+      console.log(response);
+      this.setState({quiz:response, loading:true})  
+    }
+  }
 
   onClickHandler = (prop) => {
     console.log(prop.quiz);
@@ -88,6 +105,7 @@ import {withRouter } from 'react-router-dom'
     }
   };
   isRetryHandler=()=>{
+    console.log('!!');
     this.setState({ highlight: null,passed: false, current: 1 ,results:[], change:false})
   }
   render() {
@@ -98,6 +116,8 @@ import {withRouter } from 'react-router-dom'
         {this.state.passed ? (
           <FinishPage total={this.state.quiz.length} results={this.state.results} isRetryHandler={this.isRetryHandler}/>
         ) : (
+          // <div>cw</div>
+          this.state.quiz.length > 0 &&
           <ActiveQuiz
             question={quiz.question}
             answers={quiz.answers}
