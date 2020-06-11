@@ -5,6 +5,10 @@ import InputField from "../../components/InputField/InputField";
 import classes from "./Auth.module.scss";
 
 import { validation } from "../../util/validation";
+import { connect } from 'react-redux'
+import {inputAuth} from '../../redux/ActionCreator'
+
+
 
 import { api } from "../../api/api";
 
@@ -76,25 +80,28 @@ class Auth extends Component {
   };
 
   onChangeHandler = (event, name) => {
-    this.setState({
-      formControls: {
-        ...this.state.formControls,
-        [name]: {
-          ...this.state.formControls[name],
-          value: event.target.value,
-          toutched: true,
-          valid: validation(event.target.value, [
-            ...this.state.formControls[name].validation,
-          ]),
-        },
-      },
-    });
+    console.log(event, name);
+  this.props.inputAuth({event, name})
+    // this.setState({
+    //   formControls: {
+    //     ...this.state.formControls,
+    //     [name]: {
+    //       ...this.state.formControls[name],
+    //       value: event.target.value,
+    //       toutched: true,
+    //       valid: validation(event.target.value, [
+    //         ...this.state.formControls[name].validation,
+    //       ]),
+    //     },
+    //   },
+    // });
   };
 
   renderInput() {
-    const formControls = Object.keys(this.state.formControls);
+    console.log(this.props.state);
+    const formControls = Object.keys(this.props.state.authReducer.formControls);
     return formControls.map((item, index) => {
-      const control = this.state.formControls[item];
+      const control = this.props.state.authReducer.formControls[item];
       return (
         <InputField
           className={classes.auth_inputField}
@@ -141,4 +148,10 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+const mapStateToProps = (state) => ({
+state
+})
+
+
+
+export default connect(mapStateToProps,{inputAuth})(Auth);

@@ -54,3 +54,9 @@ export const submitQiuzThunk = (payload) => async (dispatch) => {
     console.error(error);
   }
 };
+
+export const inputAuth = (payload) => ({
+    type: INPUT_AUTH,
+    payload,
+  });
+  
