@@ -1,20 +1,14 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import classes from "./QuizList.module.scss";
-import { api } from '../../api/api'
+import { connect } from 'react-redux'
+import {getQuizList} from '../../redux/ActionCreator'
+
+
 class QuizList extends Component {
-  constructor(props){
-    super(props)
-    this.state={
-      list:[],
-      loading:false
-    }
-  }
   async componentDidMount(){
-    if (this.state.list.length === 0) {
-      const response = await api.quizes.get()
-      console.log(Object.keys(response));
-      this.setState({list:Object.keys(response), loading:true})
+    if (this.props.state.listReduser.list.length === 0) {
+      this.props.getQuizList()
     }
   }
   render() {
@@ -22,14 +16,14 @@ class QuizList extends Component {
       <div className={classes.container_quiz}>
         <h1>Список вопросов</h1>
         <hr/>
-        {this.state.loading 
+        {this.props.state.listReduser.loading 
         ?
         <div  className={classes.quiz}>
-          {this.state.list.map((item, i) => (
+          {this.props.state.listReduser.list.map((item, i) => (
             <NavLink
               className={classes.quiz_link}
               to={`/quiz/${item}`}
-              children={`вопрос ${item}`}
+              children={`Тест- ${i}`}
               key={i}
             />
           ))}
@@ -41,5 +35,8 @@ class QuizList extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  state
+})
 
-export default QuizList;
+export default connect(mapStateToProps,{getQuizList})(QuizList);

@@ -9,7 +9,7 @@ export default function ActiveQuiz({ question, answers, current = 1,
       <div className={classes.question_wrapper}>
         <p className={classes.question_header}>
           <span>2.</span>
-          {question.label}
+          {question.text}
         </p>
         <p>
           <span>{current}</span>

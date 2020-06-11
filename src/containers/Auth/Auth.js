@@ -51,13 +51,11 @@ class Auth extends Component {
   }
 
   onClickHandler=(e) => {
-    console.log(e);
     const formControls = Object.keys(this.state.formControls);
     let falseItem = formControls.filter(
       (item) => this.state.formControls[item].valid === false && this.state.formControls[item].toutched === false
     );
     if (falseItem.length === 0) {
-      console.log('!!!!');
     if (e === "button") {
       api.auth.signUp(this.state.formControls.email.value, this.state.formControls.password.value);
     } else {
@@ -68,17 +66,16 @@ class Auth extends Component {
 
   onSubmitHandler = (e) => {
     e.preventDefault();
+    api.auth.logIn(this.state.formControls.email.value, this.state.formControls.password.value);
     // const formControls = Object.keys(this.state.formControls);
     // let falseItem = formControls.filter(
     //   (item) => this.state.formControls[item].valid === false && this.state.formControls[item].toutched === false
     // );
     // if (falseItem.length === 0) {
-    //   console.log('!!!!');
     // }
   };
 
   onChangeHandler = (event, name) => {
-     console.log(event,name)
     this.setState({
       formControls: {
         ...this.state.formControls,

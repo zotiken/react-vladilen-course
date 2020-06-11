@@ -4,9 +4,8 @@ import classes from "./QuizCreate.module.scss";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button";
 
-import { validation } from "../../util/validation";
-
-import {api} from '../../api/api';
+import {initCopyQuiz, inputQuizCreate, onClickButton, submitQiuzThunk} from '../../redux/ActionCreator'
+import { connect } from 'react-redux';
 
 class QuizCreate extends Component {
   constructor(props) {
@@ -89,66 +88,18 @@ class QuizCreate extends Component {
     };
   }
 
-  componentWillMount() {
-    if (!this.state.copyinitQuiz) {
-      this.setState({
-        copyinitQuiz: {
-          ...this.state.initQuiz,
-          question: { ...this.state.initQuiz["question"] },
-          answers: [...this.state.initQuiz["answers"].map((item,i) => item ={...item}
-          )],
-        },
-      });
+  componentDidMount() {
+    console.log(this.props);
+    if (!this.props.state.createReducer.copyinitQuiz) {
+      this.props.initCopyQuiz()
     }
   }
   onChangeHandler(event, index) {
-    const writeValue = (key, index) => {
-      if (index === undefined) {
-        this.setState({
-          copyinitQuiz: {
-            ...this.state.copyinitQuiz,
-            [key]: {
-              ...this.state.copyinitQuiz[key],
-              value: event.target.value,
-              toutched: true,
-              valid: validation(event.target.value, [
-                ...this.state.copyinitQuiz[key].validation,
-              ]),
-            },
-          },
-        });
-
-      } else {
-        this.setState({
-          copyinitQuiz: {
-            ...this.state.copyinitQuiz,
-            [key]:[...this.state.copyinitQuiz[key],
-            ...this.state.copyinitQuiz[key].filter((item,i) => {
-              if(i === index)  {item.value = event.target.value
-              item.toutched = true
-              item.valid = validation(event.target.value, [
-                ...this.state.copyinitQuiz[key][index].validation,
-              ])}
-            })
-          ]
-          },
-        });
-      }
-    };
-
-    if (index === 7) {
-      writeValue("question");
-    } else if (index === 8) {
-      this.setState({
-        copyinitQuiz: {...this.state.copyinitQuiz,
-      rightAnswers:event.target.value}})
-    } else {
-      writeValue("answers", index);
-    }
+    this.props.inputQuizCreate({event, index})
   }
 
   renderInput() {
-    const answers = this.state.copyinitQuiz["answers"];
+    const answers = !this.props.state.createReducer.copyinitQuiz ? this.props.state.createReducer.initQuiz["answers"] : this.props.state.createReducer.copyinitQuiz["answers"];
     return answers.map((control, index) => {
       return (
         <InputField
@@ -158,7 +109,7 @@ class QuizCreate extends Component {
           valid={control.valid}
           name={control.name}
           value={control.value}
-          formValid={this.state.formValid}
+          formValid={this.props.state.createReducer.formValid}
           errorMessage={control.errorMessage}
           key={control.name + index}
           id={index}
@@ -171,7 +122,8 @@ class QuizCreate extends Component {
     });
   }
   renderQuestionInput() {
-    const question = this.state.copyinitQuiz["question"];
+    console.log(this.props.state);
+    const question = !this.props.state.createReducer.copyinitQuiz ? this.props.state.createReducer.initQuiz["question"] : this.props.state.createReducer.copyinitQuiz["question"];
     return (
       <InputField
         className={classes.create_inputField}
@@ -180,7 +132,7 @@ class QuizCreate extends Component {
         valid={question.valid}
         name={question.name}
         value={question.value}
-        formValid={this.state.formValid}
+        formValid={this.props.state.createReducer.formValid}
         errorMessage={question.errorMessage}
         key={question.name + 0}
         id={0}
@@ -192,47 +144,18 @@ class QuizCreate extends Component {
   }
 
   onClickHandler = () =>{
-    const {copyinitQuiz, createQuiz, initQuiz} = this.state;
-    const formControls = copyinitQuiz["answers"];
-    let falseItem = formControls.filter(
-      (item, index) => item.valid === false && item.toutched === false
-    );
-    if (falseItem.length === 0) {
-      this.setState({
-        createQuiz: [...createQuiz, { ...copyinitQuiz }],
-        copyinitQuiz: {
-          ...initQuiz,
-          question: { ...initQuiz["question"] },
-        answers: [...initQuiz["answers"].map((item,i) => item ={...item}
-        )],
-        },
-        formValid: true
-      });
-
-      // alert("Success");
-    } else {
-      this.setState({
-        copyinitQuiz: {
-          ...copyinitQuiz,
-          question: { ...copyinitQuiz["question"] },
-        },
-        answers: [...initQuiz["answers"].map((item,i) => item ={...item}
-        )],
-        formValid: false,
-      });
-    }
-
+    this.props.onClickButton()
   }
   renderButton() {
-    const formButtons = Object.keys(this.state.formButtons);
+    const formButtons = Object.keys(this.props.state.createReducer.formButtons);
     return formButtons.map((item, index) => {
-      const control = this.state.formButtons[item];
+      const control = this.props.state.createReducer.formButtons[item];
       return <Button text={control.name} type={control.type} button={control.button} onClickHandler={this.onClickHandler} />;
     });
   }
   renderSelect() {
     const classSelect = [classes.create_inputField, classes.create_select];
-    const formControls = this.state.copyinitQuiz["answers"];
+    const formControls = this.props.state.createReducer.initQuiz["answers"];
     const renderOptons = () => {
       return formControls.map((item, i) => (
         <option value={i + 1}>{i + 1}</option>
@@ -254,32 +177,9 @@ class QuizCreate extends Component {
     );
   }
 
-  onSubmitHandler = async (e) => {
+   onSubmitHandler = (e) => {
     e.preventDefault();
-    const {copyinitQuiz, createQuiz, initQuiz} = this.state;
-    // console.log(this.state);
-    // const formControls = copyinitQuiz["answers"];
-    // let falseItem = formControls.filter(
-    //   (item, index) => item.valid === false && item.toutched === false
-    // );
-    if (createQuiz.length !== 0) {
-    await api.quizes.quiz.post(createQuiz)
-      this.setState({
-        createQuiz: [],
-        formValid:true
-      });
-
-      // alert("Success");
-    } else {
-      // this.setState({
-      //   copyinitQuiz: {
-      //     ...copyinitQuiz,
-      //     question: { ...copyinitQuiz["question"] },
-      //   },
-      //   answers: [...copyinitQuiz["answers"]],
-      //   formValid: false,
-      // });
-    }
+    this.props.submitQiuzThunk(this.props.state);
   };
 
   render() {
@@ -300,10 +200,10 @@ class QuizCreate extends Component {
             </div>
           </div>
         </form>
-        {this.state.createQuiz && (
+        {this.props.state.createReducer.createQuiz && (
           <p>
             <span>CREATED QUESTIONS:</span>
-            {this.state.createQuiz.length}
+            {this.props.state.createReducer.createQuiz.length}
           </p>
         )}
       </div>
@@ -311,4 +211,9 @@ class QuizCreate extends Component {
   }
 }
 
-export default QuizCreate;
+
+const mapStateToProps = (state) => ({
+state
+})
+
+export default connect(mapStateToProps, {initCopyQuiz, inputQuizCreate, onClickButton, submitQiuzThunk})(QuizCreate);
